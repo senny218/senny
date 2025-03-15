@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>칭찬 코인 자판기</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            position: relative;
+            width: 350px;
+            height: 500px;
+            background: url('KakaoTalk_20250315_235746182.jpg') no-repeat center;
+            background-size: cover;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 90px;
+        }
+        .item {
+            width: 90px;
+            height: 120px;
+            margin: 5px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .item span {
+            font-size: 10px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            word-wrap: break-word;
+            white-space: normal;
+            max-width: 80px;
+        }
+        .button {
+            width: 80px;
+            padding: 5px;
+            font-size: 10px;
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .coin-container {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 20px;
+        }
+        .history-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            max-width: 350px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>칭찬 코인 자판기</h1>
+    
+    <p class="coin-container">대희의 칭찬코인: <span id="coin-count">0</span></p>
+    <button class="button" onclick="addCoin(1)">코인 1개 지급</button>
+    <button class="button" onclick="addCoin(5)">코인 5개 지급</button>
+    <button class="button" onclick="addCoin(10)">코인 10개 지급</button>
+
+    <div class="container">
+        <div class="item">
+            <span>스트립쇼</span>
+            <button class="button" onclick="buyItem('스트립쇼', 10)">칭찬코인 10개</button>
+        </div>
+        <div class="item">
+            <span>금액랜덤 게임 현질</span>
+            <button class="button" onclick="buyItem('금액랜덤 게임 현질', 30)">칭찬코인 30개</button>
+        </div>
+        <div class="item">
+            <span>폭풍 펠라</span>
+            <button class="button" onclick="buyItem('폭풍 펠라', 5)">칭찬코인 5개</button>
+        </div>
+        <div class="item">
+            <span>원하는 속옷</span>
+            <button class="button" onclick="buyItem('원하는 속옷', 15)">칭찬코인 15개</button>
+        </div>
+        <div class="item">
+            <span>애널 섹스</span>
+            <button class="button" onclick="buyItem('애널 섹스', 40)">칭찬코인 40개</button>
+        </div>
+        <div class="item">
+            <span>금액랜덤 게임용품 사주기</span>
+            <button class="button" onclick="buyItem('게임용품 사주기', 30)">칭찬코인 30개</button>
+        </div>
+        <div class="item">
+            <span>세니가 고르는 코스튬</span>
+            <button class="button" onclick="buyItem('세니 코스튬', 50)">칭찬코인 50개</button>
+        </div>
+        <div class="item">
+            <span>대희와 세니 코스튬</span>
+            <button class="button" onclick="buyItem('커플 코스튬', 70)">칭찬코인 70개</button>
+        </div>
+        <div class="item">
+            <span>100% 대희 추천 코스튬</span>
+            <button class="button" onclick="buyItem('대희 추천 코스튬', 100)">칭찬코인 100개</button>
+        </div>
+    </div>
+
+    <div class="history-container">
+        <h3>구매 내역</h3>
+        <ul id="history-list"></ul>
+    </div>
+
+    <script>
+        let coins = localStorage.getItem("coins") ? parseInt(localStorage.getItem("coins")) : 0;
+        document.getElementById("coin-count").textContent = coins;
+
+        function addCoin(amount) {
+            coins += amount;
+            updateCoins();
+        }
+
+        function buyItem(item, price) {
+            if (coins >= price) {
+                coins -= price;
+                updateCoins();
+                addHistory(item, price);
+                alert(item + "을(를) 구매했습니다!");
+            } else {
+                alert("코인이 부족합니다!");
+            }
+        }
+
+        function updateCoins() {
+            document.getElementById("coin-count").textContent = coins;
+            localStorage.setItem("coins", coins);
+        }
+
+        function addHistory(item, price) {
+            let historyList = document.getElementById("history-list");
+            let newItem = document.createElement("li");
+            newItem.textContent = `${item} 구매 (-${price} 코인)`;
+            historyList.appendChild(newItem);
+        }
+    </script>
+</body>
+</html>
